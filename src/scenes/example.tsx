@@ -1,18 +1,28 @@
-import { makeScene2D, Txt } from "@motion-canvas/2d";
-import { createRef, createSignal, useRandom, waitFor } from "@motion-canvas/core";
+import { makeScene2D } from "@motion-canvas/2d";
+import { all, createRef, waitFor } from "@motion-canvas/core";
+import { Typewriter } from "./TypeWriter";
 
-const message = "We all have a story to tell.";
-const textSignal = createSignal("");
+const message1 = "We all have a story to tell.";
+const message2 = "Whether we whisper or yell.";
 
 export default makeScene2D(function* (view) {
-    const textBox = createRef<Txt>();
-    textSignal("");
+    const typewriter1 = createRef<Typewriter>();
+    const typewriter2 = createRef<Typewriter>();
 
     view.add(
         <>
-            <Txt
-                ref={textBox}
-                text={textSignal}
+            <Typewriter
+                ref={typewriter1}
+                message={message1}
+                fixWidth={false}
+                fill={"#000f"}
+                fontFamily={"Raleway"}
+                fontSize={56}
+            />
+            <Typewriter
+                ref={typewriter2}
+                message={message2}
+                fixWidth={true}
                 fill={"#000f"}
                 fontFamily={"Raleway"}
                 fontSize={56}
@@ -20,35 +30,21 @@ export default makeScene2D(function* (view) {
         </>
     );
 
-    // fix the width so the text doesn't move as it's being typed out
-    setTextboxWidth(textBox(), message);
-
     yield* waitFor(0.5);
 
-    for (let i = 0; i < message.length; i++) {
-        textSignal(message.slice(0, i + 1));
-        // delay the next character
-        yield* waitFor(generateTimeDelay(message[i + 1] || ""));
-    }
-
+    // write in first message
+    yield* typewriter1().typewrite();
     yield* waitFor(0.5);
-    yield* textBox().fill("#0000", 1);
+
+    // make space for the new one
+    yield* typewriter1().position.y(-56, 0.5);
+    typewriter2().position.y(56);
+
+    // write in the second message
+    yield* typewriter2().typewrite();
+    yield* waitFor(0.5);
+
+    // bye bye
+    yield* all(typewriter1().fill("#0000", 1), typewriter2().fill("#0000", 1));
     yield* waitFor(0.5);
 });
-
-function generateTimeDelay(char: string) {
-    const random = useRandom();
-    if (char === " ") {
-        return random.gauss(0.15, 0.025);
-    } else if (".,'".includes(char)) {
-        return random.gauss(0.2, 0.025);
-    } else {
-        return random.gauss(0.13, 0.025);
-    }
-}
-
-function setTextboxWidth(textbox: Txt, text: string) {
-    textSignal(text);
-    textbox.width(textbox.width());
-    textSignal("");
-}
