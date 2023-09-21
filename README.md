@@ -20,7 +20,7 @@ Just copy the [Typewriter.tsx](./src/scenes/Typewriter.tsx) file into your proje
 ### Methods
 
 -   `typewrite()` - Starts the typewriter animation.
-    Optionally, you can pass a `keystrokeDelay` callback to calculate the time between each character being typed out. The callback must return a number representing the delay in milliseconds, and it receives the message and
+    Optionally, you can pass a `keystrokeDelay` callback to calculate the time between each character being typed out. The callback must return a number representing the delay in seconds, and it receives the message and
     the next character index as arguments.
 
     The default `keystrokeDelay` function uses randomization to simulate a human typing out the message.
