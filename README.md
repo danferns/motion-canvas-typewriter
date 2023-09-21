@@ -2,7 +2,7 @@
 
 A typewriter component for Motion Canvas.
 
-https://github.com/danferns/motion-canvas-typewriter/assets/57069381/67d7c77b-42f2-4ca5-825f-bffe162a82f7
+https://github.com/danferns/motion-canvas-typewriter/assets/57069381/18e625f6-4635-42d6-87fa-49977b4e45f0
 
 ## Installation
 
