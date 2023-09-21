@@ -50,23 +50,13 @@ export class Typewriter extends Txt {
         }
     }
 
-    public *typewrite() {
+    public *typewrite(
+        keystrokeDelay: (message: string, nextCharIndex: number) => number = generateTimeDelay
+    ) {
         for (let i = 0; i < this.message().length; i++) {
             this.writtenText(this.message().slice(0, i + 1));
-            yield* waitFor(this.generateTimeDelay(i + 1));
-        }
-    }
-
-    /** Calculates the delay between key strokes, feel free to override. */
-    protected generateTimeDelay(nextChar: number) {
-        const char = this.message()[nextChar + 1] || "";
-        const random = useRandom();
-        if (char === " ") {
-            return random.gauss(0.15, 0.025);
-        } else if (".,'".includes(char)) {
-            return random.gauss(0.2, 0.025);
-        } else {
-            return random.gauss(0.13, 0.025);
+            const delay = keystrokeDelay(this.message(), i + i);
+            yield* waitFor(delay);
         }
     }
 
@@ -74,5 +64,17 @@ export class Typewriter extends Txt {
         this.writtenText(this.message());
         this.width(this.width());
         this.writtenText("");
+    }
+}
+
+function generateTimeDelay(message: string, nextChar: number) {
+    const char = message[nextChar + 1] || "";
+    const random = useRandom();
+    if (char === " ") {
+        return random.gauss(0.15, 0.025);
+    } else if (".,'".includes(char)) {
+        return random.gauss(0.2, 0.025);
+    } else {
+        return random.gauss(0.13, 0.025);
     }
 }

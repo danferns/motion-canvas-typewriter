@@ -19,8 +19,14 @@ Just copy the [Typewriter.tsx](./src/scenes/Typewriter.tsx) file into your proje
 
 ### Methods
 
--   `typewrite()` - Starts the typewriter animation.
--   `protected generateTimeDelay()` - Override this method to change how the time delay is calculated. By default, it uses randomization to simulate a human typing.
+-   `typewrite()` - Starts the typewriter animation. 
+    Optionally, it can take a `keystrokeDelay` callback to calculate the time between each character being typed out. The callback has the following call signature:
+
+    ```typescript
+    (message: string, nextCharIndex: number) => number;
+    ```
+
+    The default `keystrokeDelay` function uses randomization to simulate a human typing out the message.
 
 ## Example
 
