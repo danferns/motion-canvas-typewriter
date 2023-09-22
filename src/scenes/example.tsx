@@ -41,16 +41,10 @@ export default makeScene2D(function* (view) {
     typewriter2().position.y(56);
 
     // write in the second message
-    // yield* typewriter2().typewrite(customKeystrokeDelay);
-    yield* typewriter2().typewrite();
+    yield* typewriter2().typewrite(3);
     yield* waitFor(0.5);
 
     // bye bye
     yield* all(typewriter1().fill("#0000", 1), typewriter2().fill("#0000", 1));
     yield* waitFor(0.5);
 });
-
-// constant delay between keystrokes
-function customKeystrokeDelay(message: string, nextCharIndex: number) {
-    return 0.3;
-}
