@@ -1,6 +1,6 @@
 import { makeScene2D } from "@motion-canvas/2d";
 import { all, createRef, waitFor } from "@motion-canvas/core";
-import { Typewriter } from "./TypeWriter";
+import { Typewriter } from "./Typewriter";
 
 const message1 = "We all have a story to tell.";
 const message2 = "Whether we whisper or yell.";
